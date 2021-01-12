@@ -1,0 +1,44 @@
+kind: pipeline
+name: default
+
+clone:
+  depth: 1
+
+steps:
+- name: testing
+  image: node:12.20.1
+  pull: true
+  commands:
+  - npm install
+  - npm test
+
+steps:
+- name: building
+  image: node:12.20.1
+  pull: true
+  settings:
+    token:
+      from_secret: test_token
+  commands:
+  - npm install
+  - npm run build
+  - echo $token
+
+steps:
+- name: deploy
+  image: appleboy/drone-ssh
+    settings:
+    host: 167.71.247.201
+    username: root
+    password:
+      from_secret: ssh_password
+    port: 22
+    script:
+      - npm install -g serve
+      - cd ./build/
+      - serve
+
+trigger:
+  event:
+  - push
+  - pull_request
