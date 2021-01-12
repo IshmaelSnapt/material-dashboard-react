@@ -2,7 +2,7 @@ kind: pipeline
 name: default
 
 clone:
-  depth: 1
+  depth: 50
 
 steps:
 - name: testing
@@ -42,3 +42,50 @@ trigger:
   event:
   - push
   - pull_request
+  branch:
+  - master
+
+--
+kind: pipeline
+type: ssh
+name: default-deploy
+
+server:
+  host: 167.71.247.201
+  user: root
+  password:
+    from_secret: ssh_password
+
+platform:
+  os: linux
+  arch: amd64
+
+clone:
+  depth: 50
+
+steps:
+- name: server
+  commands:
+  - npm install -g serve
+
+steps:
+- name: server
+  commands:
+  - npm install
+  - npm run build
+
+steps:
+- name: deploy
+  commands:
+  - cd ./build/
+  - serve
+
+trigger:
+  event:
+  - push
+  - pull_request
+  branch:
+  - master
+depends_on:
+- testing
+- building
