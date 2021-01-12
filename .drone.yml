@@ -59,6 +59,3 @@ trigger:
   - pull_request
   branch:
   - master
-depends_on:
-- testing
-- building
