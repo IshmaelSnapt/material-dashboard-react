@@ -6,13 +6,6 @@ clone:
   depth: 50
 
 steps:
-- name: testing
-  image: node:12.20.1
-  pull: "if-not-exists"
-  commands:
-  - npm install
-  - npm test
-
 - name: building
   image: node:12.20.1
   pull: "if-not-exists"
@@ -49,6 +42,7 @@ steps:
 - name: server
   commands:
   - npm install -g serve
+  - npm install -g pm2
 
 - name: server
   commands:
@@ -57,8 +51,7 @@ steps:
 
 - name: deploy
   commands:
-  - cd ./build/
-  - serve
+  - pm2 start npm -- start
 
 trigger:
   event:

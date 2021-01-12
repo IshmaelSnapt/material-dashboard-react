@@ -21,7 +21,7 @@
     "react-swipeable-views": "0.13.9"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
@@ -29,7 +29,8 @@
     "lint:check": "eslint . --ext=js,jsx;  exit 0",
     "lint:fix": "eslint . --ext=js,jsx --fix;  exit 0",
     "build-package-css": "cp src/assets/css/material-dashboard-react.css dist/material-dashboard-react.css",
-    "build-package": "npm run build-package-css && babel src --out-dir dist"
+    "build-package": "npm run build-package-css && babel src --out-dir dist",
+    "start": "serve ./build/ --single -p 3000"
   },
   "repository": {
     "type": "git",
